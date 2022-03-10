@@ -9,8 +9,8 @@ cloudinary.v2.config({
 });
 
 export const uploadFile = async (req, res, next) => {
-  console.log(req.files);
-  await cloudinary.v2.uploader.upload(req.files.path, (error, result) => {
+  console.log(req.file);
+  await cloudinary.v2.uploader.upload(req.file.path, (error, result) => {
     if (error) {
       return res.status(400).json({
         error,
