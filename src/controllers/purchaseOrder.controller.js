@@ -52,7 +52,13 @@ export default class PurchaseOrderController {
 
   async deletePurchaseOrder(req, res) {
     try {
-      await PurchaseOrder.findByIdAndDelete(req.params.id);
+      const { purchaseOrderId } = req.params;
+      const po = await PurchaseOrder.findByIdAndDelete(purchaseOrderId);
+      if (!po) {
+        return res.status(404).json({
+          error: "Purchase order not found",
+        });
+      }
       return res.status(200).json({
         message: "Purchase order deleted successfully",
       });
