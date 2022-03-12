@@ -3,7 +3,12 @@ import Production from "../models/Production";
 export default class ProductionController {
   async getAllProduction(req, res) {
     try {
-      const productions = await Production.find({}).populate("order");
+      const productions = await Production.find({}).populate({
+        path: "purchaseOrder",
+        populate: {
+          path: "order",
+        },
+      });
       return res.status(200).json({
         data: productions,
       });
@@ -17,9 +22,9 @@ export default class ProductionController {
 
   async getOneProduction(req, res) {
     try {
-      const production = await Production.findById(req.params.id).populate(
-        "order"
-      );
+      const production = await Production.findById(req.params.id)
+        .populate("purchaseOrder")
+        .populate("order");
       if (!production) {
         return res.status(404).json({
           message: "Production not found",
@@ -38,7 +43,10 @@ export default class ProductionController {
 
   async createProduction(req, res) {
     try {
-      const production = await Production.create(req.body);
+      const production = await Production.create({
+        ...req.body,
+        purchaseOrder: req.purchaseOrder._id,
+      });
       return res.status(201).json({
         data: production,
       });
@@ -89,8 +97,8 @@ export default class ProductionController {
       });
     } catch (error) {
       return res.status(500).json({
-          error: error.message,
-          message: "Failed to delete production",
+        error: error.message,
+        message: "Failed to delete production",
       });
     }
   }

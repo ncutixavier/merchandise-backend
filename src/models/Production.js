@@ -1,9 +1,9 @@
 import mongoose from "mongoose";
 
 const schema = mongoose.Schema({
-  order: {
+  purchaseOrder: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Order",
+    ref: "PurchaseOrder",
   },
   input: {
     type: String,
@@ -17,10 +17,14 @@ const schema = mongoose.Schema({
     type: String,
     required: [true, "Production must have an packed status"],
   },
+  style: {
+    type: String,
+    required: [true, "Production must have an packed status"],
+  },
   created_date: {
     type: Date,
     default: Date.now,
-  }
+  },
 });
 
 export default mongoose.model("Production", schema);

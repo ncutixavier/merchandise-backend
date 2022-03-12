@@ -6,7 +6,7 @@ const schema = mongoose.Schema({
     ref: "Order",
   },
   po_number: {
-    type: String,
+    type: Number,
     required: [true, "Purchase Order must have ID"],
   }
 });

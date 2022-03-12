@@ -2,12 +2,16 @@ import PurchaseOrder from "../models/PurchaseOrder";
 
 export default class PurchaseOrderController {
   async createPurchaseOrder(req, res) {
-    const { id } = req.params;
     try {
-      const allPurchaseOrders = await PurchaseOrder.find();
+      const { id } = req.params;
+      const allPurchaseOrders = await PurchaseOrder.find({
+        order: id,
+      }).sort("po_number");
+      const lastPurchaseOrder = allPurchaseOrders[allPurchaseOrders.length - 1];
+      const poNumber = lastPurchaseOrder ? lastPurchaseOrder.po_number + 1 : 1;
       const purchaseOrder = await PurchaseOrder.create({
         order: id,
-        po_number: allPurchaseOrders.length + 1,
+        po_number: poNumber,
       });
       return res.status(201).json({
         data: purchaseOrder,
@@ -38,7 +42,12 @@ export default class PurchaseOrderController {
 
   async getPurchaseOrders(req, res) {
     try {
-      const purchaseOrders = await PurchaseOrder.find().populate("order");
+      const { id } = req.params;
+      const purchaseOrders = await PurchaseOrder.find({
+        order: id,
+      })
+        .populate("order")
+        .sort("po_number");
       return res.status(200).json({
         data: purchaseOrders,
       });

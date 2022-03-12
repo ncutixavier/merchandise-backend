@@ -3,7 +3,7 @@ import Order from "../models/Order";
 export default class OrderController {
   async getOrders(req, res) {
     try {
-      const orders = await Order.find({});
+      const orders = await Order.find({}).sort("buyer");
       res.status(200).json({
         data: orders,
       });

@@ -2,10 +2,10 @@ import joi from "@hapi/joi";
 
 const productionValidation = async (req, res, next) => {
   const productionSchema = joi.object({
-    order: joi.string().required(),
     input: joi.string().required(),
     output: joi.string().required(),
     packed: joi.string().required(),
+    style: joi.string().required(),
   });
 
   const result = await productionSchema.validate(req.body);

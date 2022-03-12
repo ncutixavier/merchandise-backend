@@ -3,6 +3,7 @@ import ProductionController from "../../controllers/production.controller";
 import { checkOrderExists } from "../../middlewares/order.middleware";
 import productionValidation from "../../validations/production.validation";
 import { checkProductionExists } from "../../middlewares/production.middleware";
+import { checkPurchaseOrderNumber } from "../../middlewares/purchaseOrder.middleware";
 
 const productionRouter = express.Router();
 const productionController = new ProductionController();
@@ -11,7 +12,7 @@ productionRouter
   .route("/")
   .post(
     productionValidation,
-    checkOrderExists,
+    checkPurchaseOrderNumber,
     productionController.createProduction
   )
   .get(productionController.getAllProduction);
