@@ -17,7 +17,7 @@ export const checkOrderExists = async (req, res, next) => {
   try {
     const { order } = req.body;
     const { id } = req.params;
-    const orderExist = await Order.findById(id || order);
+    const orderExist = await Order.findById(id || order || req.query.order);
     if (!orderExist) {
       return res.status(404).json({
         message: "Order not found",

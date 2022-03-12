@@ -5,10 +5,14 @@ const schema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "PurchaseOrder",
   },
+  order: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Order",
+  },
   image: {
     type: String,
     required: [true, "Style must have a report"],
-  }
+  },
 });
 
 export default mongoose.model("Style", schema);

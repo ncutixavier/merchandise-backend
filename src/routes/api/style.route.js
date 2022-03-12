@@ -8,6 +8,7 @@ import {
   uploadNoMediaFile,
   removeStyleFile,
 } from "../../middlewares/uploadFile.middleware";
+import { checkOrderExists } from "../../middlewares/order.middleware";
 
 const styleRouter = express.Router();
 const styleController = new StyleController();
@@ -16,10 +17,11 @@ styleRouter
   .route("/")
   .post(
     checkPurchaseOrderNumberExists,
+    checkOrderExists,
     uploadNoMediaFile,
     styleController.createStyle
   )
-  .get(checkPurchaseOrderNumber, styleController.getStyles);
+  .get(checkPurchaseOrderNumber, checkOrderExists, styleController.getStyles);
 
 styleRouter
   .route("/:id")

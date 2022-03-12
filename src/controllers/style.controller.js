@@ -5,6 +5,7 @@ export default class StyleController {
     try {
       const style = await Style.create({
         purchaseOrder: req.purchaseOrder._id,
+        order: req.body.order,
         image: req.image,
       });
       return res.status(201).json({
@@ -22,6 +23,7 @@ export default class StyleController {
     try {
       const styles = await Style.find({
         purchaseOrder: req.purchaseOrder._id,
+        order: req.query.order
       })
         .populate({
           path: "purchaseOrder",
