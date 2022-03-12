@@ -5,7 +5,7 @@ const productionValidation = async (req, res, next) => {
     order: joi.string().required(),
     input: joi.string().required(),
     output: joi.string().required(),
-    packed: joi.boolean().required(),
+    packed: joi.string().required(),
   });
 
   const result = await productionSchema.validate(req.body);

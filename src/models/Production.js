@@ -14,7 +14,7 @@ const schema = mongoose.Schema({
     required: [true, "Production must have an output"],
   },
   packed: {
-    type: Boolean,
+    type: String,
     required: [true, "Production must have an packed status"],
   },
   created_date: {
