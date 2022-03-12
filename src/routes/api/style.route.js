@@ -1,6 +1,9 @@
 import express from "express";
 import StyleController from "../../controllers/style.controller";
-import { checkPurchaseOrderExists } from "../../middlewares/purchaseOrder.middleware";
+import {
+  checkPurchaseOrderExists,
+  checkPurchaseOrderNumber,
+} from "../../middlewares/purchaseOrder.middleware";
 import {
   uploadNoMediaFile,
   removeStyleFile,
@@ -16,7 +19,7 @@ styleRouter
     uploadNoMediaFile,
     styleController.createStyle
   )
-  .get(styleController.getStyles);
+  .get(checkPurchaseOrderNumber, styleController.getStyles);
 
 styleRouter
   .route("/:id")

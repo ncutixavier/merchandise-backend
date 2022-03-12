@@ -20,7 +20,9 @@ export default class StyleController {
 
   async getStyles(req, res) {
     try {
-      const styles = await Style.find()
+      const styles = await Style.find({
+        purchaseOrder: req.purchaseOrder._id,
+      })
         .populate({
           path: "purchaseOrder",
           populate: {
