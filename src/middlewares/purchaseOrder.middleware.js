@@ -3,13 +3,16 @@ import PurchaseOrder from "../models/PurchaseOrder";
 export const checkPurchaseOrderExists = async (req, res, next) => {
   try {
     const { purchaseOrderId } = req.params;
-    const purchaseOrder = await PurchaseOrder.findById(purchaseOrderId);
-    if (!purchaseOrder) {
+    const { purchaseOrder } = req.body;
+    const purchaseOrderExist = await PurchaseOrder.findById(
+      purchaseOrderId || purchaseOrder
+    );
+    if (!purchaseOrderExist) {
       return res.status(404).json({
         message: "Purchase order not found",
       });
     }
-    req.purchaseOrder = purchaseOrder;
+    req.purchaseOrder = purchaseOrderExist;
     return next();
   } catch (err) {
     return res.status(500).json({

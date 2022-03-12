@@ -3,10 +3,8 @@ import Style from "../models/Style";
 export default class StyleController {
   async createStyle(req, res) {
     try {
-      console.log("IMAGE::", req.image);
-      const { purchaseOrderId } = req.params;
       const style = await Style.create({
-        purchaseOrder: purchaseOrderId,
+        purchaseOrder: req.body.purchaseOrder,
         image: req.image,
       });
       return res.status(201).json({
@@ -22,7 +20,14 @@ export default class StyleController {
 
   async getStyles(req, res) {
     try {
-      const styles = await Style.find().populate("purchaseOrder").exec();
+      const styles = await Style.find()
+        .populate({
+          path: "purchaseOrder",
+          populate: {
+            path: "order",
+          },
+        })
+        .exec();
       return res.status(200).json({
         data: styles,
       });
@@ -37,7 +42,12 @@ export default class StyleController {
   async getStyle(req, res) {
     try {
       const { styleId } = req.params;
-      const style = await Style.findById(styleId).populate("purchaseOrder");
+      const style = await Style.findById(styleId).populate({
+        path: "purchaseOrder",
+        populate: {
+          path: "order",
+        },
+      });
       if (!style) {
         return res.status(404).json({
           message: "Style not found",
