@@ -23,14 +23,10 @@ export default class StyleController {
     try {
       const styles = await Style.find({
         purchaseOrder: req.purchaseOrder._id,
-        order: req.query.order
+        order: req.query.order,
       })
-        .populate({
-          path: "purchaseOrder",
-          populate: {
-            path: "order",
-          },
-        })
+        .populate("purchaseOrder")
+        .populate("order")
         .exec();
       return res.status(200).json({
         data: styles,
