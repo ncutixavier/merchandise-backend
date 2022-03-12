@@ -13,6 +13,10 @@ const schema = mongoose.Schema({
     type: String,
     required: [true, "Style must have a report"],
   },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  }
 });
 
 export default mongoose.model("Style", schema);
