@@ -43,8 +43,8 @@ export default class StyleController {
 
   async getStyle(req, res) {
     try {
-      const { styleId } = req.params;
-      const style = await Style.findById(styleId).populate({
+      const { id } = req.params;
+      const style = await Style.findById(id).populate({
         path: "purchaseOrder",
         populate: {
           path: "order",
@@ -68,8 +68,8 @@ export default class StyleController {
 
   async deleteStyle(req, res) {
     try {
-      const { styleId } = req.params;
-      const style = await Style.findByIdAndDelete(styleId);
+      const { id } = req.params;
+      const style = await Style.findByIdAndDelete(id);
       if (!style) {
         return res.status(404).json({
           message: "Style not found",
