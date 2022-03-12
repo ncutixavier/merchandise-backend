@@ -3,6 +3,7 @@ import Style from "../models/Style";
 export default class StyleController {
   async createStyle(req, res) {
     try {
+      console.log("IMAGE::", req.image);
       const { purchaseOrderId } = req.params;
       const style = await Style.create({
         purchaseOrder: purchaseOrderId,

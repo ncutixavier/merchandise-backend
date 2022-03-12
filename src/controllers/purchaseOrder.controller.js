@@ -54,11 +54,12 @@ export default class PurchaseOrderController {
     try {
       await PurchaseOrder.findByIdAndDelete(req.params.id);
       return res.status(200).json({
-        data: {},
+        message: "Purchase order deleted successfully",
       });
     } catch (error) {
       return res.status(500).json({
         error: error.message,
+        message: "Failed to delete purchase order",
       });
     }
   }

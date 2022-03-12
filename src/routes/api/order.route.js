@@ -10,6 +10,7 @@ import {
 import { checkPurchaseOrderExists } from "../../middlewares/purchaseOrder.middleware";
 import {
   uploadFile,
+  uploadNoMediaFile,
   removeStyleFile,
 } from "../../middlewares/uploadFile.middleware";
 import "dotenv/config";
@@ -42,8 +43,12 @@ orderRouter
 
 orderRouter
   .route("/:purchaseOrderId/style")
-  .post(checkPurchaseOrderExists, uploadFile, styleController.createStyle)
-  .get(checkPurchaseOrderExists, styleController.getStyles)
+  .post(
+    checkPurchaseOrderExists,
+    uploadNoMediaFile,
+    styleController.createStyle
+  )
+  .get(checkPurchaseOrderExists, styleController.getStyles);
 
 orderRouter
   .route("/:purchaseOrderId/style/:styleId")

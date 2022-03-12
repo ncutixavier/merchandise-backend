@@ -22,6 +22,23 @@ export const uploadFile = async (req, res, next) => {
   });
 };
 
+export const uploadNoMediaFile = async (req, res, next) => {
+  await cloudinary.v2.uploader.upload(
+    req.files.image.path,
+    { resource_type: "raw" },
+    (error, result) => {
+      if (error) {
+        return res.status(400).json({
+          error,
+          message: "Failed to upload file",
+        });
+      }
+      req.image = result.secure_url;
+      next();
+    }
+  );
+};
+
 export const removeSampleFile = async (req, res, next) => {
   const sample = await Sample.findById(req.params.id);
   if (!sample) {
