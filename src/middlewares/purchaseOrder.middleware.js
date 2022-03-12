@@ -37,3 +37,17 @@ export const checkPurchaseOrderNumber = async (req, res, next) => {
   req.purchaseOrder = purchaseOrder;
   return next();
 };
+
+export const checkPurchaseOrderNumberExists = async (req, res, next) => {
+  const { purchaseOrder } = req.body;
+  const purchaseOrderExist = await PurchaseOrder.findOne({
+    po_number: purchaseOrder,
+  });
+  if (!purchaseOrderExist) {
+    return res.status(404).json({
+      message: "Purchase order has not been found",
+    });
+  }
+  req.purchaseOrder = purchaseOrderExist;
+  return next();
+};

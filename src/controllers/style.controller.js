@@ -4,7 +4,7 @@ export default class StyleController {
   async createStyle(req, res) {
     try {
       const style = await Style.create({
-        purchaseOrder: req.body.purchaseOrder,
+        purchaseOrder: req.purchaseOrder._id,
         image: req.image,
       });
       return res.status(201).json({

@@ -1,7 +1,7 @@
 import express from "express";
 import StyleController from "../../controllers/style.controller";
 import {
-  checkPurchaseOrderExists,
+  checkPurchaseOrderNumberExists,
   checkPurchaseOrderNumber,
 } from "../../middlewares/purchaseOrder.middleware";
 import {
@@ -15,7 +15,7 @@ const styleController = new StyleController();
 styleRouter
   .route("/")
   .post(
-    checkPurchaseOrderExists,
+    checkPurchaseOrderNumberExists,
     uploadNoMediaFile,
     styleController.createStyle
   )
