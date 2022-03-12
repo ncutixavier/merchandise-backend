@@ -61,8 +61,8 @@ export const removeSampleFile = async (req, res, next) => {
 };
 
 export const removeStyleFile = async (req, res, next) => {
-  const { styleId } = req.params;
-  const style = await Style.findById(styleId);
+  const { id } = req.params;
+  const style = await Style.findById(id);
   if (!style) {
     return res.status(404).json({
       success: false,
