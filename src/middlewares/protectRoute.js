@@ -1,5 +1,6 @@
 import User from "../models/User.js";
 import { decodeToken } from "../helpers/generateToken.js";
+import jwt from "jsonwebtoken";
 import "dotenv/config";
 
 export const protect = async (req, res, next) => {
@@ -18,7 +19,7 @@ export const protect = async (req, res, next) => {
 
   try {
     // 2. Verifying Token
-    const decoded = await decodeToken(token);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
     // 3. Check if user still exists
     const freshUser = await User.findById(decoded.id);
@@ -33,7 +34,7 @@ export const protect = async (req, res, next) => {
     console.log(error.message);
     return next(
       res.status(401).json({
-        message: "Please login to get access",
+        message: "Something went wrong, Please login to get access",
       })
     );
   }

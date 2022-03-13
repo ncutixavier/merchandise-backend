@@ -6,7 +6,11 @@ import swaggerUi from "swagger-ui-express";
 import swaggerDocument from "../swagger.json";
 import routes from "./routes/index.js";
 import formData from "express-form-data";
+import passport from "passport";
+import session from "express-session";
+
 import "dotenv/config";
+import "./config/passport";
 
 const app = express();
 
@@ -42,9 +46,23 @@ app.use(express.urlencoded({ extended: false }));
 app.use(formData.parse());
 app.use(morgan("tiny"));
 app.use(cors());
+app.set("view engine", "ejs");
+app.engine("ejs", require("ejs").__express);
+
+app.use(
+  session({
+    secret: "SECRETE",
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: true },
+  })
+);
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.get("/", (req, res) => {
-  res.json({ message: "Merchandise API" });
+  // res.json({ message: "Merchandise API" });
+  res.render("index");
 });
 
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));

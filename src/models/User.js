@@ -7,12 +7,15 @@ const schema = mongoose.Schema({
   email: {
     type: String,
   },
-  password: {
-    type: String,
-  },
   role: {
     type: String,
     default: "merchandise",
+  },
+  googleId: {
+    type: String,
+  },
+  photo: {
+    type: String,
   },
 });
 
