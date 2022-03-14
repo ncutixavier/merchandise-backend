@@ -17,6 +17,10 @@ const schema = mongoose.Schema({
   photo: {
     type: String,
   },
+  isLoggedIn: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 export default mongoose.model("User", schema);

@@ -10,7 +10,7 @@ import passport from "passport";
 import session from "express-session";
 
 import "dotenv/config";
-import "./config/passport";
+// import "./config/passport";
 
 const app = express();
 
@@ -45,9 +45,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(formData.parse());
 app.use(morgan("tiny"));
+// app.set("view engine", "ejs");
+// app.engine("ejs", require("ejs").__express);
 app.use(cors());
-app.set("view engine", "ejs");
-app.engine("ejs", require("ejs").__express);
 
 app.use(
   session({
@@ -61,8 +61,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.get("/", (req, res) => {
-  // res.json({ message: "Merchandise API" });
-  res.render("index");
+  res.json({ message: "Merchandise API" });
+  // res.render("index");
 });
 
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));

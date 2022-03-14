@@ -7,6 +7,7 @@ export default class StyleController {
         purchaseOrder: req.purchaseOrder._id,
         order: req.body.order,
         image: req.image,
+        user: req.user._id,
       });
       return res.status(201).json({
         data: style,
