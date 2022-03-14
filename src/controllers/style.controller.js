@@ -6,8 +6,7 @@ export default class StyleController {
       const style = await Style.create({
         purchaseOrder: req.purchaseOrder._id,
         order: req.body.order,
-        image: req.image,
-        user: req.user._id,
+        image: req.image
       });
       return res.status(201).json({
         data: style,
