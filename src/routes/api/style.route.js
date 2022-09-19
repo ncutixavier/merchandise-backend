@@ -9,6 +9,7 @@ import {
   removeStyleFile,
 } from "../../middlewares/uploadFile.middleware";
 import { checkOrderExists } from "../../middlewares/order.middleware";
+import { restrictTo, protectRoute } from "../../middlewares/protectRoute";
 
 const styleRouter = express.Router();
 const styleController = new StyleController();
@@ -16,6 +17,8 @@ const styleController = new StyleController();
 styleRouter
   .route("/")
   .post(
+    protectRoute,
+    restrictTo("admin"),
     checkPurchaseOrderNumberExists,
     checkOrderExists,
     uploadNoMediaFile,
@@ -26,6 +29,11 @@ styleRouter
 styleRouter
   .route("/:id")
   .get(styleController.getStyle)
-  .delete(removeStyleFile, styleController.deleteStyle);
+  .delete(
+    protectRoute,
+    restrictTo("admin"),
+    removeStyleFile,
+    styleController.deleteStyle
+  );
 
 export default styleRouter;

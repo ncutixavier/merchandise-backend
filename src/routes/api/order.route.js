@@ -14,6 +14,7 @@ import {
   removeStyleFile,
 } from "../../middlewares/uploadFile.middleware";
 import "dotenv/config";
+import { restrictTo, protectRoute } from "../../middlewares/protectRoute";
 
 const orderRouter = express.Router();
 const orderController = new OrderController();
@@ -23,27 +24,55 @@ const styleController = new StyleController();
 orderRouter
   .route("/")
   .get(orderController.getOrders)
-  .post(orderValidation, checkOrderDuplicate, orderController.createOrder);
+  .post(
+    protectRoute,
+    restrictTo("admin"),
+    orderValidation,
+    checkOrderDuplicate,
+    orderController.createOrder
+  );
 
 orderRouter
   .route("/:id")
   .get(checkOrderExists, orderController.getOrder)
-  .patch(checkOrderExists, orderController.updateOrder)
-  .delete(checkOrderExists, orderController.deleteOrder);
+  .patch(
+    protectRoute,
+    restrictTo("admin"),
+    checkOrderExists,
+    orderController.updateOrder
+  )
+  .delete(
+    protectRoute,
+    restrictTo("admin"),
+    checkOrderExists,
+    orderController.deleteOrder
+  );
 
 orderRouter
   .route("/:id/purchaseOrder")
-  .post(checkOrderExists, purchaseOrderController.createPurchaseOrder)
+  .post(
+    protectRoute,
+    restrictTo("admin"),
+    checkOrderExists,
+    purchaseOrderController.createPurchaseOrder
+  )
   .get(checkOrderExists, purchaseOrderController.getPurchaseOrders);
 
 orderRouter
   .route("/:id/purchaseOrder/:purchaseOrderId")
   .get(checkOrderExists, purchaseOrderController.getPurchaseOrder)
-  .delete(checkOrderExists, purchaseOrderController.deletePurchaseOrder);
+  .delete(
+    protectRoute,
+    restrictTo("admin"),
+    checkOrderExists,
+    purchaseOrderController.deletePurchaseOrder
+  );
 
 orderRouter
   .route("/:purchaseOrderId/style")
   .post(
+    protectRoute,
+    restrictTo("admin"),
     checkPurchaseOrderExists,
     uploadNoMediaFile,
     styleController.createStyle
@@ -54,6 +83,8 @@ orderRouter
   .route("/:purchaseOrderId/style/:styleId")
   .get(checkPurchaseOrderExists, styleController.getStyle)
   .delete(
+    protectRoute,
+    restrictTo("admin"),
     checkPurchaseOrderExists,
     removeStyleFile,
     styleController.deleteStyle
